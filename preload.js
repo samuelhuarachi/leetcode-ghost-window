@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer } = require('electron');
+const { contextBridge, ipcRenderer, desktopCapturer  } = require('electron');
 
 window.addEventListener('DOMContentLoaded', () => {
     const replaceText = (selector, text) => {
@@ -15,3 +15,4 @@ contextBridge.exposeInMainWorld('electronAPI', {
   onTriggerScreenshot: (callback) => ipcRenderer.on('trigger-screenshot', callback),
   captureScreen: () => ipcRenderer.invoke('capture-screen')
 });
+

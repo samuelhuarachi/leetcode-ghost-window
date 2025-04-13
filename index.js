@@ -14,7 +14,11 @@ function createWindow () {
     hasShadow: false,
     webPreferences: {
       contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.js'),
+      webSecurity: false,
+      nodeIntegration: false, // keep false for security
+      enableRemoteModule: false,
+      sandbox: false
     }
   })
 
@@ -26,7 +30,12 @@ function createWindow () {
   globalShortcut.register('Control+P', () => {
     win.webContents.send('trigger-screenshot');
   });
+
+  win.webContents.openDevTools();
 }
+
+app.commandLine.appendSwitch('enable-usermedia-screen-capturing');
+app.commandLine.appendSwitch('disable-features', 'OutOfBlinkCors');
 
 app.whenReady().then(() => {
   createWindow()
@@ -46,12 +55,13 @@ app.on('window-all-closed', () => {
 
 ipcMain.handle('capture-screen', async () => {
   const sources = await desktopCapturer.getSources({ types: ['screen'] });
-
   const screenSource = sources[0];
 
-  const image = screenSource.thumbnail.toPNG();
+  const image = screenSource.thumbnail.toJPEG(100);
   const screenshotPath = path.join(__dirname, 'screenshot.png');
-
   fs.writeFileSync(screenshotPath, image);
   return screenshotPath;
 });
+
+
+// to continue: https://stackoverflow.com/questions/36753288/saving-desktopcapturer-to-video-file-in-electron
