@@ -12,5 +12,8 @@
   "description": "",
   "devDependencies": {
     "electron": "^33.4.9"
+  },
+  "dependencies": {
+    "openai": "^4.93.0"
   }
 }

@@ -64,8 +64,11 @@ ipcMain.handle('capture-screen', async () => {
   
 
   const sources = await desktopCapturer.getSources(options);
-  const screenSource = sources[0];
 
+  // to sure get primary display screen
+  const primarySource = sources.find((source) => source.display_id == primaryDisplay.id)
+
+  const screenSource = sources[0];
   const image = screenSource.thumbnail.toJPEG(100);
   const screenshotPath = path.join(__dirname, 'screenshot.png');
   fs.writeFileSync(screenshotPath, image);
