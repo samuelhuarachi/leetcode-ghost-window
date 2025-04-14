@@ -1,5 +1,5 @@
 // const { app, BrowserWindow } = require('electron/main')
-const { app, BrowserWindow, globalShortcut, desktopCapturer, ipcMain } = require('electron/main');
+const { app, BrowserWindow, globalShortcut, desktopCapturer, ipcMain, screen } = require('electron/main');
 const path = require('node:path')
 const fs = require('fs');
 
@@ -54,7 +54,16 @@ app.on('window-all-closed', () => {
 })
 
 ipcMain.handle('capture-screen', async () => {
-  const sources = await desktopCapturer.getSources({ types: ['screen'] });
+  const primaryDisplay = screen.getPrimaryDisplay();
+  const {width, height} = primaryDisplay.size;
+
+  const options = {
+    types: ["screen"],
+    thumbnailSize: {width, height},
+  }
+  
+
+  const sources = await desktopCapturer.getSources(options);
   const screenSource = sources[0];
 
   const image = screenSource.thumbnail.toJPEG(100);
@@ -65,3 +74,5 @@ ipcMain.handle('capture-screen', async () => {
 
 
 // to continue: https://stackoverflow.com/questions/36753288/saving-desktopcapturer-to-video-file-in-electron
+// https://www.youtube.com/watch?v=4zfU0e9VQG8
+
