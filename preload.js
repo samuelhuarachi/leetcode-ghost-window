@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer, desktopCapturer  } = require('electron');
+const { contextBridge, ipcRenderer  } = require('electron');
 
 window.addEventListener('DOMContentLoaded', () => {
     const replaceText = (selector, text) => {
@@ -13,6 +13,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
 contextBridge.exposeInMainWorld('electronAPI', {
   onTriggerScreenshot: (callback) => ipcRenderer.on('trigger-screenshot', callback),
-  captureScreen: () => ipcRenderer.invoke('capture-screen')
+  captureScreen: () => ipcRenderer.invoke('capture-screen'),
+  // readImage: () => {
+  //   const screenshotPath = path.join(__dirname, 'screenshot.png');
+  //   return fs.readFileSync(screenshotPath).toString('base64');
+  // }
+  readScreenshot: () => ipcRenderer.invoke('read-screenshot'),
+  openaiResponse: (args) => ipcRenderer.invoke('openai-response', args)
 });
 

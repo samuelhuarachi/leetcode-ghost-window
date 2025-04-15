@@ -1,10 +1,7 @@
-// const { app, BrowserWindow } = require('electron/main')
+require('dotenv').config();
 const { app, BrowserWindow, globalShortcut, desktopCapturer, ipcMain, screen } = require('electron/main');
 const path = require('node:path')
 const fs = require('fs');
-
-// We are using Node.js 20.18.3, Chromium 130.0.6723.191, and Electron 33.4.9.
-
 
 function createWindow () {
   const win = new BrowserWindow({
@@ -24,7 +21,6 @@ function createWindow () {
 
   
   win.setContentProtection(true)
-
   win.loadFile('index.html')
 
   globalShortcut.register('Control+P', () => {
@@ -75,7 +71,50 @@ ipcMain.handle('capture-screen', async () => {
   return screenshotPath;
 });
 
+ipcMain.handle('read-screenshot', async () => {
+  const screenshotPath = path.join(__dirname, 'screenshot.png');
+  return fs.readFileSync(screenshotPath).toString('base64');
+})
+
+
+ipcMain.handle('openai-response', async (event, {screenshotBase64}) => {
+  const openai_api_key = process.env.OPENAI_API_KEY;
+
+  const response = await fetch('https://api.openai.com/v1/responses', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${openai_api_key}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'gpt-4.1-mini',
+          input: [
+            {
+              role: 'user',
+              content: [
+                { type: 'input_text', text: 'Here is a LeetCode problem shown in one or more screenshots. Give me only the solution in JavaScript. No explanation.' },
+                {
+                  type: 'input_image',
+                  image_url: `data:image/jpeg;base64,${screenshotBase64}`
+                },
+              ],
+            },
+          ],
+        }),
+  });
+
+  const openai_response = await response.json();
+  return openai_response.output;
+})
+
+/* curl https://api.openai.com/v1/responses/resp_67fda268df2481928450f8aaed3c89c603623c968ff16c30 \
+  -H "Authorization: Bearer tokennn_here */
+
 
 // to continue: https://stackoverflow.com/questions/36753288/saving-desktopcapturer-to-video-file-in-electron
 // https://www.youtube.com/watch?v=4zfU0e9VQG8
 
+
+// title: LeetCode Problem (Image) – Just JavaScript Answer
+// input 1: Here is a LeetCode problem shown in one or more screenshots. Give me only the solution in JavaScript. No explanation.
+// input 2: These images together contain a LeetCode problem. Just solve it and give me the full JavaScript code only.
