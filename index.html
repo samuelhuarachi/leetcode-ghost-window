@@ -45,6 +45,39 @@
     <p>Ctrl+Shift+a buscar usando apenas o um screenshot<br />
     Ctrl+Shift+b buscar usando dois screenshots<br />
     Ctrl+Shift+c buscar usando três screenshots</p>
+
+    <div class="container">
+
+        <div class="input-group">
+          <label for="apikey">🔑 OpenAI API Key:</label>
+          <input type="text" id="apikey" placeholder="sk-xxxxxxxxxxxxxxxxxxxx" />
+        </div>
+    
+        <div class="output" id="response">
+          <h2>Resposta:</h2>
+          <div id="response-text">Esperando resposta...</div>
+        </div>
+    
+        <div class="logs" id="logs">
+          <h2>Logs:</h2>
+          <div id="log-content">
+            [Sistema iniciado]<br>
+          </div>
+        </div>
+    
+        <div class="helper">
+          <h2>Ajuda (Atalhos):</h2>
+          <ul>
+            <li><span class="shortcut">Ctrl + 1</span>: Tirar Screenshot 1</li>
+            <li><span class="shortcut">Ctrl + 2</span>: Tirar Screenshot 2</li>
+            <li><span class="shortcut">Ctrl + 3</span>: Tirar Screenshot 3</li>
+            <li><span class="shortcut">Ctrl + P</span>: Processar imagens</li>
+            <li><span class="shortcut">Ctrl + R</span>: Ver resposta</li>
+            <li><span class="shortcut">Ctrl + H</span>: Mostrar/ocultar ajuda</li>
+          </ul>
+        </div>
+    
+      </div>
     
 
     <script src="assets/highlight.min.js"></script>
