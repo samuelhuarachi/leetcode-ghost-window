@@ -13,11 +13,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
 contextBridge.exposeInMainWorld('electronAPI', {
   onTriggerScreenshot: (callback) => ipcRenderer.on('trigger-screenshot', callback),
+  onTriggerScreenshot2: (callback) => ipcRenderer.on('trigger-screenshot2', callback),
+  onTriggerScreenshot3: (callback) => ipcRenderer.on('trigger-screenshot3', callback),
+  onTriggerAi1: (callback) => ipcRenderer.on('trigger-ai1', callback),
   captureScreen: () => ipcRenderer.invoke('capture-screen'),
-  // readImage: () => {
-  //   const screenshotPath = path.join(__dirname, 'screenshot.png');
-  //   return fs.readFileSync(screenshotPath).toString('base64');
-  // }
+  captureScreen2: () => ipcRenderer.invoke('capture-screen2'),
+  captureScreen3: () => ipcRenderer.invoke('capture-screen3'),
+  findAnswerUsingOneScreenshot: () => ipcRenderer.invoke('find-answer-using-one-screenshot'),
   readScreenshot: () => ipcRenderer.invoke('read-screenshot'),
   openaiResponse: (args) => ipcRenderer.invoke('openai-response', args)
 });

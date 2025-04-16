@@ -2,20 +2,53 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>Leetcode Ghost Screen</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Hello World!</h1>
+    <!-- <h1>Leetcode Ghost Screen</h1>
     <p>
         We are using Node.js <span id="node-version"></span>,
         Chromium <span id="chrome-version"></span>,
         and Electron <span id="electron-version"></span>.
     </p>
-    <hr>
-    <h1>OpenAI Response:</h1>
-    <pre id="openai-response">Carregando...</pre>
+    <hr> -->
 
+    <table class="styled-table">
+        <tr>
+          <th>Screenshot1</th>
+          <th>Screenshot2</th>
+          <th>Screenshot3</th>
+        </tr>
+        <tr>
+          <td><div id="screenshot">Aguardando screenshot1</div></td>
+          <td><div id="screenshot2">Aguardando screenshot2</div></td>
+          <td><div id="screenshot3">Aguardando screenshot3</div></td>
+        </tr>
+    </table> 
+    <hr>
+
+    <h3>Sua resposta será postada abaixo:</h3>
+    <p>
+        <pre><code class="language-html" id="answer"></code></pre>
+    </p>
+
+
+    <hr>
+    <h3>Como usar:</h3>
+    <h4>Tirando os screenshots:</h4>
+    Ctrl+Shift+1 para tirar o primeiro screenshot<br />
+    Ctrl+Shift+2 para tirar o segundo screenshot<br />
+    Ctrl+Shift+3 para tirar o terceiro screenshot</p>
+    <h4>Consultar ChatGPT:</h4>
+    <p>Ctrl+Shift+a buscar usando apenas o um screenshot<br />
+    Ctrl+Shift+b buscar usando dois screenshots<br />
+    Ctrl+Shift+c buscar usando três screenshots</p>
+    
+
+    <script src="highlight.min.js"></script>
+    <script src="highlight.javasript.min.js"></script>
     <script src="renderer.js"></script>
 </body>
 </html>
