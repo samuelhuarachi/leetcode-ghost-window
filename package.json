@@ -1,10 +1,10 @@
 {
   "name": "leetcode-ghost-window",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron index.js"
+    "start": "electron main.js"
   },
   "keywords": [],
   "author": "",

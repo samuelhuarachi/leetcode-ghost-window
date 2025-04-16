@@ -20,7 +20,7 @@ function createWindow () {
   })
 
   
-  win.setContentProtection(false); // <-- GHOST 
+  win.setContentProtection(true); // <-- GHOST 
   win.setAlwaysOnTop(true, 'screen');
   win.loadFile('index.html');
 
@@ -81,7 +81,7 @@ ipcMain.handle('capture-screen', async () => {
 
   const screenSource = sources[0];
   const image = screenSource.thumbnail.toJPEG(100);
-  const screenshotPath = path.join(__dirname, 'screenshot.png');
+  const screenshotPath = path.join(__dirname, "screenshots", 'screenshot.png');
   fs.writeFileSync(screenshotPath, image);
   return screenshotPath;
 });
@@ -131,14 +131,13 @@ ipcMain.handle('capture-screen3', async () => {
 });
 
 ipcMain.handle('read-screenshot', async () => {
-  const screenshotPath = path.join(__dirname, 'screenshot.png');
-  return fs.readFileSync(screenshotPath).toString('base64');
+  const screenshotPath = path.join(__dirname, "screenshots", "screenshot.png");
+  return fs.readFileSync(screenshotPath).toString("base64");
 })
-
 
 ipcMain.handle('find-answer-using-one-screenshot', async () => {
   const openai_api_key = process.env.OPENAI_API_KEY;
-  const screenshotPath = path.join(__dirname, 'screenshot.png');
+  const screenshotPath = path.join(__dirname, "screenshots", 'screenshot.png');
   const screenshot1_base64 =  fs.readFileSync(screenshotPath).toString('base64');
 
   const response = await fetch('https://api.openai.com/v1/responses', {
@@ -163,10 +162,15 @@ ipcMain.handle('find-answer-using-one-screenshot', async () => {
           ],
         }),
   });
-
   const openai_response = await response.json();
+
   return openai_response.output;
 })
+
+ipcMain.handle('openai-response', async (event, {screenshotBase64}) => {
+  const openai_api_key = process.env.OPENAI_API_KEY;
+})
+
 
 // {
 //   error: {
@@ -176,12 +180,6 @@ ipcMain.handle('find-answer-using-one-screenshot', async () => {
 //     code: 'insufficient_quota'
 //   }
 // }
-
-ipcMain.handle('openai-response', async (event, {screenshotBase64}) => {
-  const openai_api_key = process.env.OPENAI_API_KEY;
-})
-
-
 
 /* curl https://api.openai.com/v1/responses/resp_67fee0530dc08192a07731b805e4c0700b994dcba53f8fb8 \
   -H "Authorization: Bearer tokennn_here */
