@@ -23,7 +23,7 @@ function createWindow () {
   })
 
   
-  win.setContentProtection(true); // <-- GHOST 
+  win.setContentProtection(false); // <-- GHOST 
   win.setAlwaysOnTop(true, 'screen');
   win.loadFile('index.html');
 
