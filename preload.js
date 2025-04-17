@@ -19,8 +19,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   captureScreen: () => ipcRenderer.invoke('capture-screen'),
   captureScreen2: () => ipcRenderer.invoke('capture-screen2'),
   captureScreen3: () => ipcRenderer.invoke('capture-screen3'),
-  findAnswerUsingOneScreenshot: () => ipcRenderer.invoke('find-answer-using-one-screenshot'),
-  readScreenshot: () => ipcRenderer.invoke('read-screenshot'),
-  openaiResponse: (args) => ipcRenderer.invoke('openai-response', args)
+  findAnswerUsingScreenshot: (args) => ipcRenderer.invoke('find-answer-using-screenshot', args),
+  // readScreenshot: () => ipcRenderer.invoke('read-screenshot'),
 });
 

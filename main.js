@@ -2,6 +2,8 @@ require('dotenv').config();
 const { app, BrowserWindow, globalShortcut, desktopCapturer, ipcMain, screen } = require('electron/main');
 const path = require('node:path')
 const fs = require('fs');
+const { ChatGptHelper } = require('./src/ChatGptHelper');
+const { Utils } = require('./src/Utils');
 
 function createWindow () {
   const win = new BrowserWindow({
@@ -9,6 +11,7 @@ function createWindow () {
     height: 600,
     backgroundThrottling : true,
     hasShadow: false,
+    skipTaskbar: true,
     webPreferences: {
       contextIsolation: true,
       preload: path.join(__dirname, 'preload.js'),
@@ -41,7 +44,7 @@ function createWindow () {
   });
 
 
-  // win.webContents.openDevTools();
+  win.webContents.openDevTools();
   win.setMenu(null);
 }
 
@@ -103,7 +106,7 @@ ipcMain.handle('capture-screen2', async () => {
 
   const screenSource = sources[0];
   const image = screenSource.thumbnail.toJPEG(100);
-  const screenshotPath = path.join(__dirname, 'screenshot2.png');
+  const screenshotPath = path.join(__dirname, "screenshots", 'screenshot2.png');
   fs.writeFileSync(screenshotPath, image);
   return screenshotPath;
 });
@@ -125,51 +128,30 @@ ipcMain.handle('capture-screen3', async () => {
 
   const screenSource = sources[0];
   const image = screenSource.thumbnail.toJPEG(100);
-  const screenshotPath = path.join(__dirname, 'screenshot3.png');
+  const screenshotPath = path.join(__dirname, "screenshots", 'screenshot3.png');
   fs.writeFileSync(screenshotPath, image);
   return screenshotPath;
 });
 
-ipcMain.handle('read-screenshot', async () => {
-  const screenshotPath = path.join(__dirname, "screenshots", "screenshot.png");
-  return fs.readFileSync(screenshotPath).toString("base64");
+// ipcMain.handle('read-screenshot', async () => {
+//   const screenshotPath = path.join(__dirname, "screenshots", "screenshot.png");
+//   return fs.readFileSync(screenshotPath).toString("base64");
+// })
+
+ipcMain.handle('find-answer-using-screenshot', async (event, {quantityScreenshotToUse, openai_api_key}) => {
+  // const screenshotPath = path.join(__dirname, "screenshots", 'screenshot.png');
+  const utils = new Utils();
+  const chatGpHelper = new ChatGptHelper({utils, openai_api_key, quantityScreenshotToUse});
+  const chatgpt_response = await chatGpHelper.doRequest();
+
+  if (!chatgpt_response.hasOwnProperty("output")) {
+    return chatgpt_response
+  }
+
+  return chatgpt_response.output;
 })
 
-ipcMain.handle('find-answer-using-one-screenshot', async () => {
-  const openai_api_key = process.env.OPENAI_API_KEY;
-  const screenshotPath = path.join(__dirname, "screenshots", 'screenshot.png');
-  const screenshot1_base64 =  fs.readFileSync(screenshotPath).toString('base64');
 
-  const response = await fetch('https://api.openai.com/v1/responses', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${openai_api_key}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'gpt-4.1-mini',
-          input: [
-            {
-              role: 'user',
-              content: [
-                { type: 'input_text', text: 'Here is a LeetCode problem shown in one or more screenshots. Give me only the solution in JavaScript. No explanation.' },
-                {
-                  type: 'input_image',
-                  image_url: `data:image/jpeg;base64,${screenshot1_base64}`
-                },
-              ],
-            },
-          ],
-        }),
-  });
-  const openai_response = await response.json();
-
-  return openai_response.output;
-})
-
-ipcMain.handle('openai-response', async (event, {screenshotBase64}) => {
-  const openai_api_key = process.env.OPENAI_API_KEY;
-})
 
 
 // {

@@ -14,38 +14,6 @@
         and Electron <span id="electron-version"></span>.
     </p>
     <hr> -->
-
-    <table class="styled-table">
-        <tr>
-          <th>Screenshot1</th>
-          <th>Screenshot2</th>
-          <th>Screenshot3</th>
-        </tr>
-        <tr>
-          <td><div id="screenshot">Aguardando screenshot1</div></td>
-          <td><div id="screenshot2">Aguardando screenshot2</div></td>
-          <td><div id="screenshot3">Aguardando screenshot3</div></td>
-        </tr>
-    </table> 
-    <hr>
-
-    <h3>Sua resposta será postada abaixo:</h3>
-    <p>
-        <pre><code class="language-html" id="answer"></code></pre>
-    </p>
-
-
-    <hr>
-    <h3>Como usar:</h3>
-    <h4>Tirando os screenshots:</h4>
-    Ctrl+Shift+1 para tirar o primeiro screenshot<br />
-    Ctrl+Shift+2 para tirar o segundo screenshot<br />
-    Ctrl+Shift+3 para tirar o terceiro screenshot</p>
-    <h4>Consultar ChatGPT:</h4>
-    <p>Ctrl+Shift+a buscar usando apenas o um screenshot<br />
-    Ctrl+Shift+b buscar usando dois screenshots<br />
-    Ctrl+Shift+c buscar usando três screenshots</p>
-
     <div class="container">
 
         <div class="input-group">
@@ -53,27 +21,25 @@
           <input type="text" id="apikey" placeholder="sk-xxxxxxxxxxxxxxxxxxxx" />
         </div>
     
+        <h2>Resposta:</h2>
         <div class="output" id="response">
-          <h2>Resposta:</h2>
           <div id="response-text">Esperando resposta...</div>
         </div>
     
+        <h2>Logs:</h2>
         <div class="logs" id="logs">
-          <h2>Logs:</h2>
-          <div id="log-content">
-            [Sistema iniciado]<br>
-          </div>
+          <div id="log-content"></div>
         </div>
     
         <div class="helper">
           <h2>Ajuda (Atalhos):</h2>
           <ul>
-            <li><span class="shortcut">Ctrl + 1</span>: Tirar Screenshot 1</li>
-            <li><span class="shortcut">Ctrl + 2</span>: Tirar Screenshot 2</li>
-            <li><span class="shortcut">Ctrl + 3</span>: Tirar Screenshot 3</li>
-            <li><span class="shortcut">Ctrl + P</span>: Processar imagens</li>
-            <li><span class="shortcut">Ctrl + R</span>: Ver resposta</li>
-            <li><span class="shortcut">Ctrl + H</span>: Mostrar/ocultar ajuda</li>
+            <li><span class="shortcut">Ctrl + Shift + 1</span>: Tirar Screenshot 1</li>
+            <li><span class="shortcut">Ctrl + Shift + 2</span>: Tirar Screenshot 2</li>
+            <li><span class="shortcut">Ctrl + Shift + 3</span>: Tirar Screenshot 3</li>
+            <li><span class="shortcut">Ctrl + Shift + A</span>: Processar com uma imgem</li>
+            <li><span class="shortcut">Ctrl + Shift + B</span>: Processar com duas imagens</li>
+            <li><span class="shortcut">Ctrl + Shift + C</span>: Processar com três imagens</li>
           </ul>
         </div>
     

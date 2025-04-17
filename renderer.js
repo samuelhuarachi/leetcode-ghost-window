@@ -1,41 +1,50 @@
 
+window.addEventListener('DOMContentLoaded', async () => {
+    document.getElementById("log-content").innerHTML += '<br> [SYSTEM] sistema iniciado';
+    document.getElementById("log-content").innerHTML += '<br> [APP] aguardando screenshot';
+    document.getElementById("log-content").innerHTML += '<br> [HELPER] você pode apertar ctrl+shift+1 para tirar o primeiro screenshot';
+});
 
 window.electronAPI.onTriggerScreenshot(async () => {
     const path = await window.electronAPI.captureScreen();
-    document.getElementById("screenshot").innerText = novaHora();
+    document.getElementById("log-content").innerHTML += '<br> [APP] opa! recebi o screenshot 1 as ' + novaHora();
 });
 
 
 window.electronAPI.onTriggerScreenshot2(async () => {
     const path = await window.electronAPI.captureScreen2();
-    document.getElementById("screenshot2").innerText = novaHora();
+    document.getElementById("log-content").innerHTML += '<br> [APP] opa! recebi o screenshot 2 as ' + novaHora();
 });
 
 
 window.electronAPI.onTriggerScreenshot3(async () => {
     const path = await window.electronAPI.captureScreen3();
-    document.getElementById("screenshot3").innerText = novaHora();
+    document.getElementById("log-content").innerHTML += '<br> [APP] opa! recebi o screenshot 3 as ' + novaHora();
 });
 
 window.electronAPI.onTriggerAi1(async () => {
-    const answers = await window.electronAPI.findAnswerUsingOneScreenshot();
-    // const answers = [];
+    const openai_api_key = document.getElementById("apikey").value;
+    const answers = await window.electronAPI.findAnswerUsingScreenshot({quantityScreenshotToUse: 1, openai_api_key});  
+    renderAnswer({answers});
+});
+
+function renderAnswer({answers}) {
+    if (!Array.isArray(answers) && !answers.hasOwnProperty("output")) {
+        document.getElementById("response-text").innerHTML = answers.error.message; 
+        return;
+    }
 
     let final_response = "";
+
+
     for (const answer of answers) {
         final_response += answer.content[0].text;
     }
 
     const highlightedCode = hljs.highlight(final_response.replaceAll("```javascript", "").replaceAll("```", ""),{ language: 'javascript' }).value
-    document.getElementById("answer").innerHTML = highlightedCode;
-});
+    document.getElementById("response-text").innerHTML = highlightedCode;
+}
 
-
-window.addEventListener('DOMContentLoaded', async () => {
-    // const screenshotBase64 = await window.electronAPI.readScreenshot();
-    // const openai_respose_list = await window.electronAPI.openaiResponse({screenshotBase64});
-
-});
 
 function dataAtualFormatada(){
     var data = new Date(),
