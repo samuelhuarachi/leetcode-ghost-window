@@ -44,7 +44,7 @@ function createWindow () {
   });
 
 
-  win.webContents.openDevTools();
+  // win.webContents.openDevTools(); <-- for debug
   win.setMenu(null);
 }
 
@@ -133,11 +133,6 @@ ipcMain.handle('capture-screen3', async () => {
   return screenshotPath;
 });
 
-// ipcMain.handle('read-screenshot', async () => {
-//   const screenshotPath = path.join(__dirname, "screenshots", "screenshot.png");
-//   return fs.readFileSync(screenshotPath).toString("base64");
-// })
-
 ipcMain.handle('find-answer-using-screenshot', async (event, {quantityScreenshotToUse, openai_api_key}) => {
   // const screenshotPath = path.join(__dirname, "screenshots", 'screenshot.png');
   const utils = new Utils();
@@ -150,8 +145,6 @@ ipcMain.handle('find-answer-using-screenshot', async (event, {quantityScreenshot
 
   return chatgpt_response.output;
 })
-
-
 
 
 // {
