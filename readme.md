@@ -1,3 +1,6 @@
+Não funciona no linux. Testado no win11 64bits, e algumas versões de mac. \
+Multiplas imagens, precisa implementar, apenas para um screeshot no momento.
+
 To run:
 
 npm install \
